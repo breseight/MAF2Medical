@@ -107,6 +107,8 @@ protected:
   /** FILE SAVEAS evt. handler */
   virtual void OnFileSaveAs();
 
+  virtual void WizardContinue(bool flag);
+
   medWizardManager *m_WizardManager;
   bool m_UseWizardManager;
   bool m_WizardRunning;

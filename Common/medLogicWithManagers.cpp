@@ -489,16 +489,15 @@ void medLogicWithManagers::OnFileOpen(const char *file_to_open)
         }
       }
 
-      if(file.IsEmpty() && m_WizardManager && m_WizardRunning)
-        m_WizardManager->WizardContinue(false);
+      if(file.IsEmpty())
+        WizardContinue(false);
       else if(file.IsEmpty())
         return;
         
 
       int opened=m_VMEManager->MSFOpen(file);
       //If there is a wizzard running we need to continue it after open operation
-      if (m_WizardManager && m_WizardRunning)
-        m_WizardManager->WizardContinue(opened!=MAF_ERROR);
+	  WizardContinue(opened!=MAF_ERROR);
     }
   }
 }
@@ -515,8 +514,7 @@ void medLogicWithManagers::OnFileSave()
 	m_VMEManager->SetDirName(save_default_folder);
     int saved=m_VMEManager->MSFSave();
     //If there is a wizard running we need to continue it after save operation
-    if (m_WizardManager && m_WizardRunning)
-      m_WizardManager->WizardContinue(saved!=MAF_ERROR);
+    WizardContinue(saved!=MAF_ERROR);
     UpdateFrameTitle();
   }
 }
@@ -532,10 +530,17 @@ void medLogicWithManagers::OnFileSaveAs()
 	m_VMEManager->SetDirName(save_default_folder);
     int saved=m_VMEManager->MSFSaveAs();
     //If there is a wizard running we need to continue it after save operation
-    if (m_WizardManager && m_WizardRunning)
-      m_WizardManager->WizardContinue(saved!=MAF_ERROR);
+    WizardContinue(saved!=MAF_ERROR);
     UpdateFrameTitle();
   }
+}
+
+//----------------------------------------------------------------------------
+void medLogicWithManagers::WizardContinue(bool flag)
+//----------------------------------------------------------------------------
+{
+	if (m_WizardManager && m_WizardRunning)
+		m_WizardManager->WizardContinue(flag);
 }
 
 //----------------------------------------------------------------------------
