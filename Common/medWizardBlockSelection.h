@@ -75,7 +75,6 @@ protected:
 
   /** Return the name of the Block witch will be executed after this */
   virtual wxString GetNextBlock();
-private:
 
   //Choices struct definition
   typedef struct 
