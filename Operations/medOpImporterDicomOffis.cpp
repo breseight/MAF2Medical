@@ -2325,18 +2325,18 @@ void medOpImporterDicomOffis::CreateBuildPage()
 
 	if(((medGUIDicomSettings*)GetSetting())->GetOutputNameFormat() == medGUIDicomSettings::TRADITIONAL)
 	{
-		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME," VME name",&m_VolumeName);
+		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME,"name",&m_VolumeName);
 	}
 	else if (((medGUIDicomSettings*)GetSetting())->GetOutputNameFormat() == medGUIDicomSettings::DESCRIPTION_DATE)
 	{
 		/*m_VolumeName = m_SelectedSeriesSlicesList->Item(0)->GetData()->GetDescription();
 		m_VolumeName << "_";
 		m_VolumeName << m_SelectedSeriesSlicesList->Item(0)->GetData()->GetDate();*/
-		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME," VME name",&m_VolumeName);
+		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME,"name",&m_VolumeName);
 	}
 	else if (((medGUIDicomSettings*)GetSetting())->GetOutputNameFormat() == medGUIDicomSettings::CUSTOM)
 	{
-		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME," VME name",&m_VolumeName);
+		m_BuildGuiUnderLeft->String(ID_VOLUME_NAME,"name",&m_VolumeName);
 	}
 
 
