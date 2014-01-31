@@ -89,7 +89,8 @@ mafViewSingleSlice::mafViewSingleSlice(wxString label, int camera_position, bool
 	m_OriginVolume[1] = 0.0;
   m_OriginVolume[2] = 0.0;
   m_CurrentSurface.clear();
-	m_CurrentPolyline.clear();
+  m_CurrentPolyline.clear();
+  //m_AttachCamera=NULL;
 }
 //----------------------------------------------------------------------------
 mafViewSingleSlice::~mafViewSingleSlice()
@@ -477,11 +478,11 @@ mafGUI *mafViewSingleSlice::CreateGui()
   assert(m_Gui == NULL);
   m_Gui = new mafGUI(this);
   m_AttachCamera = new mafAttachCamera(m_Gui, m_Rwi, this);
-  //m_Gui->AddGui(m_AttachCamera->GetGui());
+  m_Gui->AddGui(m_AttachCamera->GetGui());
 
 	//m_Slider = m_Gui->FloatSlider(ID_POSITION, _("Position"), &m_Position,MINDOUBLE,MAXDOUBLE);
   m_Gui->Double(ID_POSITION, _("Position"), &m_Position,MINDOUBLE,MAXDOUBLE,2);
-	m_Gui->Enable(ID_POSITION,false);
+  m_Gui->Enable(ID_POSITION,false);
 
 	//const wxString plane_string[] = {_("XY"), _("YZ"), _("ZX")};
 	//m_Gui->Combo(ID_PLANE_SELECT, "View", &m_PlaneSelect, 3, plane_string);
