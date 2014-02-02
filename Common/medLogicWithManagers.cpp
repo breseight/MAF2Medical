@@ -49,6 +49,7 @@ medLogicWithManagers::medLogicWithManagers()
   m_UseWizardManager  = false;
   m_WizardRunning = false;
   m_WizardManager = NULL;
+  m_WizardGauge = NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -223,7 +224,7 @@ void medLogicWithManagers::OnEvent(mafEventBase *maf_event)
       break; 
     case PROGRESSBAR_SHOW:
      {
-       if (e->GetSender()==m_WizardManager)
+       if ((e->GetSender()==m_WizardManager) && (m_WizardGauge))
        {
          m_WizardLabel->Enable();
          m_WizardGauge->Enable();
@@ -234,7 +235,7 @@ void medLogicWithManagers::OnEvent(mafEventBase *maf_event)
     break;
     case PROGRESSBAR_HIDE:
       {
-        if (e->GetSender()==m_WizardManager)
+        if ((e->GetSender()==m_WizardManager) && (m_WizardGauge))
         {
           m_WizardGauge->SetValue(0);
           m_WizardGauge->Enable(false);
@@ -246,7 +247,7 @@ void medLogicWithManagers::OnEvent(mafEventBase *maf_event)
     break;
     case PROGRESSBAR_SET_VALUE:
       {
-        if (e->GetSender()==m_WizardManager)
+        if ((e->GetSender()==m_WizardManager) && (m_WizardGauge))
           m_WizardGauge->SetValue(e->GetArg());
         else
           mafLogicWithManagers::OnEvent(maf_event);
@@ -556,7 +557,6 @@ void medLogicWithManagers::CreateWizardToolbar()
   serparatorBar->Update();
   serparatorBar->Realize();
 
-  m_WizardGauge;
   m_WizardGauge = new wxGauge(m_Win,-1, 100,wxDefaultPosition,wxDefaultSize,wxGA_SMOOTH);
   m_WizardGauge->SetForegroundColour( *wxBLUE );
   m_WizardGauge->Disable();
