@@ -171,6 +171,7 @@ void medWizardBlockInformation::ExcutionBegin()
     //and ok button
     mafGUI *checkGUI=new mafGUI(this);
     checkGUI->Bool(WIZARD_INFO_SHOW_ID,"Show information boxes",&m_ShowBoxes,true);
+	checkGUI->Enable(WIZARD_INFO_SHOW_ID, false);
     checkGUI->Reparent(dialog);
     buttonSizer->Add(checkGUI,0,wxLEFT,5);
 
