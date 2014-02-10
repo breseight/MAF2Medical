@@ -13,7 +13,7 @@
  PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
+#define HAVE_SSIZE_T
 
 #include "mafDefines.h"
 //----------------------------------------------------------------------------
@@ -22,6 +22,7 @@
 // Failing in doing this will result in a run-time error saying:
 // "Failure#0: The value of ESP was not properly saved across a function call"
 //----------------------------------------------------------------------------
+
 
 #include "mafViewCT.h"
 #include "mafViewSlice.h"

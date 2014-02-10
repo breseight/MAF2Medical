@@ -30,7 +30,8 @@ SET(PROJECT_SRCS
   medGUILutHistogramEditor.h
   medGUIMDIFrame.cpp
   medGUIMDIFrame.h
-  
+  medGUISelectionImagesDialog.cpp
+  medGUISelectionImagesDialog.h
 )
 
 

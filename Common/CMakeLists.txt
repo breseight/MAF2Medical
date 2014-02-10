@@ -80,6 +80,9 @@ SET(PROJECT_SRCS
   medWizardSettings.cpp
   medWizardSettings.h
   
+  medWizardBlockImagesSelection.cpp
+  medWizardBlockImagesSelection.h
+  
   #### SHOULD BE COMMITTED DOWN ######
   mafDbg.h
   mafDataChecksum.h
