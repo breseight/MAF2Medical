@@ -29,6 +29,8 @@
 #include <wx/image.h>
 #include <wx/statline.h>
 #include "mafGUIPicButton.h"
+#include "mafGUIPicButtons.h"
+
 
 
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
@@ -42,6 +44,8 @@ medWizardBlockInformation::medWizardBlockInformation(const char *name):medWizard
   //setting image on top by default
   m_HorizontalImage=true;
   m_ImagesPath=(mafGetApplicationDirectory() + "\\WizardImages\\").c_str();
+  m_ButtonInfoType = BUTTON_CLASSIC;
+  m_Dialog = NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -91,7 +95,7 @@ void medWizardBlockInformation::ExcutionBegin()
     mafGUIPicButton *previewImageButton;
 
     wxBoxSizer *mainVertSizer = new wxBoxSizer(wxVERTICAL);
-    mafGUIDialog *dialog=new mafGUIDialog(m_Title,mafRESIZABLE);
+    m_Dialog = new mafGUIDialog(m_Title,mafRESIZABLE);
     wxBoxSizer * mainInfoSizer;
   
     //Setting the frames order base
@@ -113,14 +117,14 @@ void medWizardBlockInformation::ExcutionBegin()
       previewImage->LoadFile(imgPath.c_str(), wxBITMAP_TYPE_ANY );
 
       previewBitmap=new wxBitmap(*previewImage);
-      previewImageButton=new mafGUIPicButton(dialog,previewBitmap,-1);
+      previewImageButton=new mafGUIPicButton(m_Dialog,previewBitmap,-1);
       mainInfoSizer->Add(previewImageButton, 0,wxALL | wxALIGN_CENTER, 5);
       delete previewBitmap;
     }
   
   
     //Creating the static text area
-    wxStaticText* guiLabel = new wxStaticText(dialog, -1, m_Description,wxPoint(-1,-1),wxSize(-1,-1),wxALIGN_LEFT);
+    wxStaticText* guiLabel = new wxStaticText(m_Dialog, -1, m_Description,wxPoint(-1,-1),wxSize(-1,-1),wxALIGN_LEFT);
     wxFont fixedFont= guiLabel->GetFont();
 
     //setting font to fixed size to avoid wx non-sense 
@@ -154,15 +158,15 @@ void medWizardBlockInformation::ExcutionBegin()
     guiLabel->SetMinSize(wxSize(xsize,ysize));
 
   
-    //merging sizers into dialog
-    wxStaticBoxSizer * modelSizer = new wxStaticBoxSizer(wxVERTICAL,dialog,m_BoxLabel);
+    //merging sizers into m_Dialog
+    wxStaticBoxSizer * modelSizer = new wxStaticBoxSizer(wxVERTICAL,m_Dialog,m_BoxLabel);
     modelSizer->Add(guiLabel,0,wxALL|wxEXPAND,5);
     mainInfoSizer->Add(modelSizer,0,wxALL|wxEXPAND,5);
   
     mainVertSizer->Add(mainInfoSizer,0,wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 15);
     
     
-    mainVertSizer->Add(new wxStaticLine(dialog,-1),0,wxEXPAND | wxALL, 7);
+    mainVertSizer->Add(new wxStaticLine(m_Dialog,-1),0,wxEXPAND | wxALL, 7);
     
 
     wxBoxSizer *buttonSizer =  new wxBoxSizer( wxHORIZONTAL );
@@ -172,24 +176,36 @@ void medWizardBlockInformation::ExcutionBegin()
     mafGUI *checkGUI=new mafGUI(this);
     checkGUI->Bool(WIZARD_INFO_SHOW_ID,"Show information boxes",&m_ShowBoxes,true);
 	checkGUI->Enable(WIZARD_INFO_SHOW_ID, false);
-    checkGUI->Reparent(dialog);
+    checkGUI->Reparent(m_Dialog);
     buttonSizer->Add(checkGUI,0,wxLEFT,5);
 
-    wxButton *okButton = new wxButton(dialog,wxID_OK,"Ok");
-    buttonSizer->Add(okButton,0,wxALIGN_CENTER,5);
+	wxWindow *okButton = NULL;
+	if(m_ButtonInfoType == BUTTON_CLASSIC) {
+        okButton = new wxButton(m_Dialog,wxID_OK,"Ok");
+	} else if(m_ButtonInfoType == BUTTON_IMAGE) {
+		okButton = new mafGUIPicButtons(m_Dialog, wxID_OK, 1, 1);
+		((mafGUIPicButtons*)okButton)->SetListener(this);
+		std::vector<wxString> picturesInteractor;
+		picturesInteractor.push_back("OK_OPERATION");
+		((mafGUIPicButtons*)okButton)->SetPictureVector(picturesInteractor);
+		((mafGUIPicButtons*)okButton)->Create();
+        ((mafGUIPicButtons*)okButton)->SetToolTip(0, _("Ok"));
+	}
+    
+	buttonSizer->Add(okButton,0,wxALIGN_CENTER|wxALL,5);
     
 
     mainVertSizer->Add(buttonSizer,0,wxALL,5);
-    dialog->Add(mainVertSizer,0,wxALL);
+    m_Dialog->Add(mainVertSizer,0,wxALL);
 	
-	dialog->Fit();
-    //show dialog
+	m_Dialog->Fit();
+    //show m_Dialog
 	wxSize s = mafGetFrame()->GetSize();
 	wxPoint p = mafGetFrame()->GetPosition();
-	int posX = p.x + s.GetWidth() * .5 - dialog->GetSize().GetWidth() * .5 ;
-	int posY = p.y + s.GetHeight() * .5 - dialog->GetSize().GetHeight() * .5;
-	dialog->SetPosition(wxPoint(posX, posY));
-    dialog->ShowModal();
+	int posX = p.x + s.GetWidth() * .5 - m_Dialog->GetSize().GetWidth() * .5 ;
+	int posY = p.y + s.GetHeight() * .5 - m_Dialog->GetSize().GetHeight() * .5;
+	m_Dialog->SetPosition(wxPoint(posX, posY));
+    m_Dialog->ShowModal();
   }
 }
 
@@ -239,6 +255,11 @@ void medWizardBlockInformation::OnEvent( mafEventBase *maf_event )
         mafEventMacro(mafEvent(this,WIZARD_INFORMATION_BOX_SHOW_SET,(bool)m_ShowBoxes));
       }
       break;
+	case wxID_OK:
+		if(m_Dialog) {
+			m_Dialog->Close();
+		}
+		break;
     default:
       //All event will be forwarded up
       mafEventMacro(*e);

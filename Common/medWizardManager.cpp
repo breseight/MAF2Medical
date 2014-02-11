@@ -27,6 +27,7 @@
 #include "medWizardSettings.h"
 #include "medWizard.h"
 #include "medWizardWaitOp.h"
+#include "medWizardWaitButtonsOp.h"
 #include "mafGUISettingsDialog.h"
 #include <wx/tokenzr.h>
 
@@ -45,6 +46,7 @@ medWizardManager::medWizardManager()
   m_NumWizard = 0;
   m_WizardList.clear();
   m_WaitOp = new medWizardWaitOp;
+  m_WaitButtonsOp = new medWizardWaitButtonsOp;
 }
 
 //----------------------------------------------------------------------------
@@ -333,6 +335,11 @@ void medWizardManager::OnRunOp(mafEvent *e)
   {
     //pause op
     mafEventMacro(mafEvent(this,WIZARD_PAUSE,m_WaitOp));
+  }
+  else if (opString=="PAUSE_BUTTONS")
+  {
+	  //pause op
+	  mafEventMacro(mafEvent(this,WIZARD_PAUSE_BUTTONS,m_WaitButtonsOp));
   }
   else if (opString=="SAVE")
   {

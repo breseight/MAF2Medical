@@ -27,7 +27,7 @@
 //----------------------------------------------------------------------------
 // forward reference
 //----------------------------------------------------------------------------
-
+class mafGUIDialog;
 /**
   Class Name: medWizardSelectionBlock.
   Class for create a multiple choice switch inside wizard graph
@@ -39,6 +39,12 @@ public:
   enum WIZARD_INFO
   {
     WIZARD_INFO_SHOW_ID = MINID,
+  };
+
+  enum WIZARD_INFO_BUTTON
+  {
+	  BUTTON_CLASSIC,
+	  BUTTON_IMAGE,
   };
 
   /** Default constructor */
@@ -91,6 +97,8 @@ public:
   /** Get the images path*/
   wxString GetImagePath() { return m_ImagesPath;};
 
+  void SetButtonInfoType(short int type) {m_ButtonInfoType = type;}
+
 protected:
 
   /** Starts the execution of the block */
@@ -103,10 +111,12 @@ private:
 
   bool m_HorizontalImage;
   int m_ShowBoxes;
+  short int m_ButtonInfoType;
   wxString m_Title;
   wxString m_Description;
   wxString m_BoxLabel;
   wxString m_ImageFilename;
   wxString m_ImagesPath;
+  mafGUIDialog *m_Dialog;
 };
 #endif

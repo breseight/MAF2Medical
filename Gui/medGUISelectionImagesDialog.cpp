@@ -49,7 +49,9 @@ void medGUISelectionImagesDialog::Initialize(std::vector<wxString> &images, std:
 {
 	assert(images.size() == tooltips.size());
 
-	m_SelectionButtons = new mafGUIPicButtons(this, ID_SELECTION_BUTTON, images.size(), sqrt((float)images.size()));
+	int numberOfColumns = (images.size() == 2) || (images.size() == 3) ? images.size() : sqrt((float)images.size());
+
+	m_SelectionButtons = new mafGUIPicButtons(this, ID_SELECTION_BUTTON, images.size(), numberOfColumns);
 	m_SelectionButtons->SetListener(this);
 	m_SelectionButtons->SetButtonsType(mafGUIPicButtons::ID_BUTTON);
 

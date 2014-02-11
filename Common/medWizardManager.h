@@ -31,6 +31,7 @@
 class medWizardWaitOp;
 class mafGUISettingsDialog;
 class medWizardSettings;
+class medWizardWaitButtonsOp;
 
 #ifdef MED_COMMON_EXPORTS
 #include "mafDllMacros.h"
@@ -125,6 +126,7 @@ private:
   mafNode						*m_Selected; ///< Pointer to the current selected node.
   bool               m_Warn; ///< Flag to warn the user when an operation that can not undo is starting.
   medWizardWaitOp   *m_WaitOp;
+  medWizardWaitButtonsOp   *m_WaitButtonsOp;
 
   friend class medLogicWithManagers; // class medWizardManager can now access data directly
   friend class medWizardManagerTest; // for testing 

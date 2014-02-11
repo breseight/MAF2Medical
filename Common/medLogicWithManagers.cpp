@@ -174,6 +174,7 @@ void medLogicWithManagers::OnEvent(mafEventBase *maf_event)
       }
     break;
     case WIZARD_PAUSE:
+	case WIZARD_PAUSE_BUTTONS:
       {
         UpdateFrameTitle();
         m_OpManager->OpRun(e->GetOp());
