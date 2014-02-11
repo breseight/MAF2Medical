@@ -210,6 +210,10 @@ void medWizardBlockInformation::ExcutionBegin()
 	int posX = p.x + s.GetWidth() * .5 - m_Dialog->GetSize().GetWidth() * .5 ;
 	int posY = p.y + s.GetHeight() * .5 - m_Dialog->GetSize().GetHeight() * .5;
 	m_Dialog->SetPosition(wxPoint(posX, posY));
+
+	m_Dialog->SetMinSize(m_Dialog->GetSize());
+	m_Dialog->SetMaxSize(m_Dialog->GetSize());
+
     m_Dialog->ShowModal();
   }
 }
