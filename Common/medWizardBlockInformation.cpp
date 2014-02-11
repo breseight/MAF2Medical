@@ -177,7 +177,7 @@ void medWizardBlockInformation::ExcutionBegin()
     checkGUI->Bool(WIZARD_INFO_SHOW_ID,"Show information boxes",&m_ShowBoxes,true);
 	checkGUI->Enable(WIZARD_INFO_SHOW_ID, false);
     checkGUI->Reparent(m_Dialog);
-    buttonSizer->Add(checkGUI,0,wxLEFT,5);
+    
 
 	wxWindow *okButton = NULL;
 	if(m_ButtonInfoType == BUTTON_CLASSIC) {
@@ -192,11 +192,16 @@ void medWizardBlockInformation::ExcutionBegin()
         ((mafGUIPicButtons*)okButton)->SetToolTip(0, _("Ok"));
 	}
     
-	buttonSizer->Add(okButton,0,wxALIGN_CENTER|wxALL,5);
+	buttonSizer->Add(checkGUI,0,wxLEFT,5);
+	buttonSizer->AddStretchSpacer(1);
+	buttonSizer->AddStretchSpacer(1);
+	buttonSizer->Add(okButton,1,wxLEFT,5);
+	buttonSizer->AddStretchSpacer(2);
+	buttonSizer->AddStretchSpacer(2);
     
 
-    mainVertSizer->Add(buttonSizer,0,wxALL,5);
-    m_Dialog->Add(mainVertSizer,0,wxALL);
+    mainVertSizer->Add(buttonSizer,0,wxEXPAND,5);
+    m_Dialog->Add(mainVertSizer,0,wxEXPAND);
 	
 	m_Dialog->Fit();
     //show m_Dialog
