@@ -32,7 +32,7 @@ enum DIALOG_BUTTONS {
 
 //----------------------------------------------------------------------------
 medGUISelectionImagesDialog::medGUISelectionImagesDialog( wxWindow* parent, int timeout, wxWindowID id, const wxString& title, const wxString& name, const wxPoint& pos, const wxSize& size, long style)
-	: mafGUIDialog("Select User Mode", mafCLOSEWINDOW)
+	: mafGUIDialog(title, mafCLOSEWINDOW)
 //----------------------------------------------------------------------------
 {
 

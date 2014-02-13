@@ -58,7 +58,7 @@ void medWizardBlockImagesSelection::ExcutionBegin()
     choices[i]=m_Choices[i].label;
 
   //Show Modal window
-  medGUISelectionImagesDialog amsg(NULL, 5, wxID_ANY, _(""), "Select:");
+  medGUISelectionImagesDialog amsg(NULL, 5, wxID_ANY, _(m_Title.c_str()), "Select:");
   int w,h;
   mafGetFrame()->GetPosition(&w,&h);
   wxSize size = mafGetFrame()->GetSize();
