@@ -103,10 +103,11 @@ void medWizardBlockSelection::ExcutionBegin()
 
   //Show Modal window
   m_SelectedChoice = wxGetSingleChoiceIndex(m_Description,m_Title,m_Choices.size(), choices);
-
+  
   //User has pessed cancel
-  if (m_SelectedChoice<0)
-    Abort();
+  if (m_SelectedChoice<0 || m_SelectedChoice > m_Choices.size()) {
+	  Abort();
+  }
 
   //free mem 
   delete[] choices;  

@@ -77,8 +77,9 @@ void medWizardBlockImagesSelection::ExcutionBegin()
   m_SelectedChoice = amsg.ShowModal();
 
   //User has pessed cancel
-  if (m_SelectedChoice<0)
+  if (m_SelectedChoice<0 || m_SelectedChoice > m_Choices.size()) {
     Abort();
+  }
 
   //free mem 
   delete[] choices;  
