@@ -189,7 +189,7 @@ void medWizardBlockInformation::ExcutionBegin()
 		picturesInteractor.push_back("OK_OPERATION");
 		((mafGUIPicButtons*)okButton)->SetPictureVector(picturesInteractor);
 		((mafGUIPicButtons*)okButton)->Create();
-        ((mafGUIPicButtons*)okButton)->SetToolTip(0, _("Ok"));
+        //((mafGUIPicButtons*)okButton)->SetToolTip(0, _("Ok"));
 	}
     
 	buttonSizer->Add(checkGUI,0,wxLEFT,5);
