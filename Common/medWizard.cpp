@@ -297,16 +297,17 @@ void medWizard::ContinueExecution(int opSuccess)
     BlockExecutionEnd();
   else 
   {
-    int answare = wxMessageBox(_("Do you want to abort this wizard ?"), _("Wizard Abort"), wxYES_NO|wxCENTER);
+    //int answare = wxMessageBox(_("Do you want to abort this wizard ?"), _("Wizard Abort"), wxYES_NO|wxCENTER);
+	int answare = wxYES;
     if(answare == wxYES)
     {
       if (m_ShowProgressBar)
         mafEventMacro(mafEvent(this,PROGRESSBAR_HIDE));
-
       //if the operation has aborted by the user we abort the entire wizard
       //this behavior can be updated for error management
       mafEventMacro(mafEvent(this,WIZARD_RUN_TERMINATED,false));
       m_CurrentBlock=NULL;
+	  mafEventMacro(mafEvent(this,WIZARD_CHECK));
     }
     else
     {
