@@ -2914,6 +2914,10 @@ void medOpImporterDicomOffis::OnUndoCrop()
 	m_ReferenceSystemPage->GetRWI()->CameraUpdate();
 	m_CropActor->VisibilityOn();
 	m_CropExecuted=false;
+	m_CropPlane->SetOrigin(0.0,0.0,0.0);
+	m_CropPlane->SetPoint1(m_SliceBounds[1]-m_SliceBounds[0],0.0,0.0);
+	m_CropPlane->SetPoint2(0.0,m_SliceBounds[3]-m_SliceBounds[2],0.0);
+	m_CropPage->GetRWI()->CameraReset();
 }
 //----------------------------------------------------------------------------
 void medOpImporterDicomOffis::Crop()
