@@ -2923,6 +2923,40 @@ void medOpImporterDicomOffis::OnUndoCrop()
 void medOpImporterDicomOffis::Crop()
 	//----------------------------------------------------------------------------
 {
+	
+// 	m_SliceBounds[0]
+// 	m_SliceBounds[1]
+// 	m_SliceBounds[2]
+// 	m_SliceBounds[3]
+	double *origin , *p1, *p2;
+	origin = m_CropPlane->GetOrigin();
+	p1 = m_CropPlane->GetPoint1();
+	p2 = m_CropPlane->GetPoint2();
+
+	double diffx,diffy,boundsCamera[6];
+	diffx=m_SliceBounds[1]-m_SliceBounds[0];
+	diffy=m_SliceBounds[3]-m_SliceBounds[2];
+
+	if((origin[0] < 0. || origin[1] < 0.) ||
+	   (origin[0] > diffx || origin[1] > diffy) ||
+	   (p1[0] < 0. || p1[1] < 0.) ||
+	   (p1[0] > diffx || p1[1] > diffy) ||
+	   (p2[0] < 0. || p2[1] < 0.) ||
+	   (p2[0] > diffx || p2[1] > diffy)
+	   ) {
+
+
+		int initWizard = wxMessageBox("Cropping Area is out of volume, Do you want to continue?","Crop",wxYES_NO);
+		if(initWizard == wxYES)
+		{
+			   
+		}
+		else
+		{
+			return;
+		}
+	}
+
 	if( !m_BoxCorrect )
 	{
 		wxMessageBox("Error on selecting the box");
@@ -2939,9 +2973,7 @@ void medOpImporterDicomOffis::Crop()
 	m_CropActor->VisibilityOff();
 	m_CropExecuted=true;
 
-	double diffx,diffy,boundsCamera[6];
-	diffx=m_SliceBounds[1]-m_SliceBounds[0];
-	diffy=m_SliceBounds[3]-m_SliceBounds[2];
+	
 
 	boundsCamera[0]=0.0;
 	boundsCamera[1]=diffx;
