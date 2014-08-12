@@ -69,6 +69,8 @@ public:
   /** This method has no sense in this class, use AddChoice() instead*/
   virtual void SetNextBlock(const char *block){};
 
+  void AddTag(wxString tagName, wxString tagValue, wxString node = "");
+
 protected:
   /** Starts the execution of the block */
   virtual void ExcutionBegin();
@@ -83,9 +85,18 @@ protected:
     wxString block;
   } blockChoice;
 
+  typedef struct 
+  {
+	  unsigned short index;
+	  wxString tagName;
+	  wxString tagValue;
+	  wxString node;
+  } blockAttributes;
+
   wxString m_Title;
   wxString m_Description;
   std::vector < blockChoice > m_Choices;
+  std::vector < blockAttributes > m_Attributes;
   int m_SelectedChoice;
 };
 #endif

@@ -24,8 +24,8 @@
 
 #include "medDecl.h"
 #include "medWizardBlockSelection.h"
-
-
+#include "mafNode.h"
+#include "mafTagArray.h"
 
 
 //----------------------------------------------------------------------------
@@ -62,7 +62,19 @@ void medWizardBlockSelection::AddChoice( const char *label, const char *block )
   tmpChoice.block=block;
   m_Choices.push_back(tmpChoice);
 }
+//----------------------------------------------------------------------------
+void medWizardBlockSelection::AddTag(wxString tagName, wxString tagValue, wxString node)
+//----------------------------------------------------------------------------
+{
+	assert(m_Choices.size());
 
+	blockAttributes tmpAttributes;
+	tmpAttributes.index = m_Choices.size()-1;
+	tmpAttributes.tagName = tagName;
+	tmpAttributes.tagValue = tagValue;
+	tmpAttributes.node = node;
+	m_Attributes.push_back(tmpAttributes);
+}
 //----------------------------------------------------------------------------
 wxString medWizardBlockSelection::GetNextBlock()
 //----------------------------------------------------------------------------
@@ -108,6 +120,19 @@ void medWizardBlockSelection::ExcutionBegin()
   if (m_SelectedChoice<0 || m_SelectedChoice > m_Choices.size()) {
 	  Abort();
   }
+
+  for(int i=0;i<m_Attributes.size();i++) {
+	  if (m_Attributes[i].index == m_SelectedChoice) {
+		  mafNode* vme = NULL;
+		  if(m_Attributes[i].node.IsEmpty()) {
+			  vme = m_SelectedVME->GetRoot();
+		  } else {
+			  vme = m_SelectedVME->GetByPath(m_Attributes[i].node);
+		  }
+		  vme->GetTagArray()->SetTag(m_Attributes[i].tagName, m_Attributes[i].tagValue);
+	  }
+  }
+  
 
   //free mem 
   delete[] choices;  

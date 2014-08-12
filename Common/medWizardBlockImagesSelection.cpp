@@ -29,7 +29,6 @@
 #include "mafNode.h"
 #include "medGUISelectionImagesDialog.h"
 
-
 //----------------------------------------------------------------------------
 medWizardBlockImagesSelection::medWizardBlockImagesSelection(const char *name):medWizardBlockSelection(name)
 //----------------------------------------------------------------------------
@@ -79,6 +78,18 @@ void medWizardBlockImagesSelection::ExcutionBegin()
   //User has pessed cancel
   if (m_SelectedChoice<0 || m_SelectedChoice > m_Choices.size()) {
     Abort();
+  }
+
+  for(int i=0;i<m_Attributes.size();i++) {
+	  if (m_Attributes[i].index == m_SelectedChoice) {
+		  mafNode* vme = NULL;
+		  if(m_Attributes[i].node.IsEmpty()) {
+			  vme = m_SelectedVME->GetRoot();
+		  } else {
+			  vme = m_SelectedVME->GetByPath(m_Attributes[i].node);
+		  }
+		  vme->GetTagArray()->SetTag(m_Attributes[i].tagName, m_Attributes[i].tagValue);
+	  }
   }
 
   //free mem 
