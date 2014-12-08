@@ -56,6 +56,8 @@ public:
   /** Event Management */
   virtual void OnEvent(mafEventBase *maf_event);
 
+  /** Set the event listener */
+  virtual void SetListener(mafObserver *Listener) {m_Listener = Listener;};
 
 private:
 
@@ -91,8 +93,7 @@ private:
   /** Enable/Disable the toolbar's buttons. */
   virtual void EnableToolbar(bool CanEnable = true);
 
-  /** Set the event listener */
-  virtual void SetListener(mafObserver *Listener) {m_Listener = Listener;};
+  
 
   /** Set the flag for warning the user if the operation is undoable. */
   virtual void WarningIfCantUndo (bool warn) {m_Warn = warn;};
